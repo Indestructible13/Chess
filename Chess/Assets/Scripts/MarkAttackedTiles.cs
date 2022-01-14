@@ -45,6 +45,6 @@ public class MarkAttackedTiles : MonoBehaviour
 
         }
 
-        GameObject.Find("White Pieces").transform.GetChild(0).gameObject.GetComponent<MoveKing>().FindTilesAttacked("King's current tile");
+        //GameObject.Find("White Pieces").transform.GetChild(0).gameObject.GetComponent<MoveKing>().FindTilesAttacked("King's current tile");
     }
 }
