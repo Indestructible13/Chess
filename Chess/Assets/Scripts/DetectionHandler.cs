@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class DetectionHandler : MonoBehaviour
 {
+    private bool attackedByWhite;
+    private bool attackedByBlack;
+
+    public bool AttackedByWhite { get => attackedByWhite; set => attackedByWhite = value; }
+    public bool AttackedByBlack { get => attackedByBlack; set => attackedByBlack = value; }
+
     // Start is called before the first frame update
     void Start()
     {

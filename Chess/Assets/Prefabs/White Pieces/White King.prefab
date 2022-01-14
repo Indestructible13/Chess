@@ -125,6 +125,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32e58f796da9ced47a873c27c899ca8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentTile: {fileID: 0}
   layerMask:
     serializedVersion: 2
     m_Bits: 4
+  whitePiece: 1
