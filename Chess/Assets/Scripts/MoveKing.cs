@@ -61,7 +61,7 @@ public class MoveKing : MonoBehaviour
 
             // After the king has moved, update the tilesAttacked list.
             tilesAttacked.Clear();
-            FindTilesAttacked(currentTile);
+            FindTilesAttacked();
 
             Debug.Log(gameObject.name + " moved to " + futureTile.name);
         }  
@@ -98,7 +98,7 @@ public class MoveKing : MonoBehaviour
     //TODO
     private bool CheckValidMove()
     {
-        FindTilesAttacked(currentTile);
+        FindTilesAttacked();
 
         // Check all the tiles the king can attack. If the tile is safe, then it is a valid move for the king.
         // Necessary because the king cannot walk into a check.
@@ -151,7 +151,7 @@ public class MoveKing : MonoBehaviour
     }
 
     // Based on the given tile, return a list of all tiles that the king can attack.
-    public void FindTilesAttacked(GameObject currentTile)
+    public void FindTilesAttacked()
     {
         // Get the center of the tile and draw a ray 1 unit in each direction (sqrt 2 units for diagonals)
         // This is because the king can move 1 tile in each direction
@@ -197,8 +197,10 @@ public class MoveKing : MonoBehaviour
                 }
             }
         }
+    }
 
-        // Calls the function that will go over the board piece by piece and mark every tile that each piece attacks.
-        GameObject.Find("Detection Tiles").transform.GetComponent<MarkAttackedTiles>().MarkTilesAsAttacked();
+    public List<GameObject> GetListOfTilesAttacked()
+    {
+        return tilesAttacked;
     }
 }
