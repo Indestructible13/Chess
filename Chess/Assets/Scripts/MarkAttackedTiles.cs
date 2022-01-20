@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MarkAttackedTiles : MonoBehaviour
 {
-    private List<GameObject> listOfTiles = new List<GameObject>(); // List of all 64 tiles
+    private List<GameObject> allTiles = new List<GameObject>(); // List of all 64 tiles
     private List<GameObject> tilesAttackedByWhite = new List<GameObject>();
     private List<GameObject> tilesAttackedByBlack = new List<GameObject>();
 
@@ -15,9 +15,8 @@ public class MarkAttackedTiles : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GetListOfPieces();
-        GetListOfWhitePieces();
-        GetListOfBlackPieces();
+        GetAllTiles();
+        GetAllPieces();
     }
 
     // Update is called once per frame
@@ -29,11 +28,7 @@ public class MarkAttackedTiles : MonoBehaviour
     public void MarkTilesAsAttacked()
     {
         // First, go through and unmark ALL tiles
-        foreach (GameObject tile in listOfTiles)
-        {
-            tile.GetComponent<DetectionHandler>().AttackedByWhite = false;
-            tile.GetComponent<DetectionHandler>().AttackedByBlack = false;
-        }
+        UnmarkTiles();
 
         // Then, go through and check every piece and mark every tile they attack.
         // For White
@@ -59,7 +54,7 @@ public class MarkAttackedTiles : MonoBehaviour
         }
 
         // Go through list of all tiles. If a tile is also in the list of pieces attacked by white/black, then mark the tile as such.
-        foreach (GameObject tile in listOfTiles)
+        foreach (GameObject tile in allTiles)
         {
             if (tilesAttackedByWhite.Contains(tile))
             {
@@ -75,31 +70,63 @@ public class MarkAttackedTiles : MonoBehaviour
 
     private void GetListOfWhitePieces()
     {
-        Debug.Log("List of White Pieces:");
+        //Debug.Log("List of White Pieces:");
         for (int i = 0; i < GameObject.Find("White Pieces").transform.childCount; i++)
         {
             whitePieces.Add(GameObject.Find("White Pieces").transform.GetChild(i).gameObject);
-            Debug.Log(GameObject.Find("White Pieces").transform.GetChild(i).gameObject.name);
+            //Debug.Log(GameObject.Find("White Pieces").transform.GetChild(i).gameObject.name);
         }
     }
 
     private void GetListOfBlackPieces()
     {
-        Debug.Log("List of Black Pieces:");
+        //Debug.Log("List of Black Pieces:");
         for (int i = 0; i < GameObject.Find("Black Pieces").transform.childCount; i++)
         {
             whitePieces.Add(GameObject.Find("Black Pieces").transform.GetChild(i).gameObject);
-            Debug.Log(GameObject.Find("Black Pieces").transform.GetChild(i).gameObject.name);
+            //Debug.Log(GameObject.Find("Black Pieces").transform.GetChild(i).gameObject.name);
         }
     }
 
-    private void GetListOfPieces()
+    private void GetAllPieces()
+    {
+        GetListOfWhitePieces();
+        GetListOfBlackPieces();
+
+        foreach (GameObject whitePiece in whitePieces)
+        {
+            allPieces.Add(whitePiece);
+        }
+
+        foreach (GameObject blackPiece in blackPieces)
+        {
+            allPieces.Add(blackPiece);
+        }
+
+        int i = 0;
+        foreach (GameObject piece in allPieces)
+        {
+            i++;
+            Debug.Log("Piece #" + i + " is " + piece.name);
+        }
+    }
+
+    private void GetAllTiles()
     {
         // Create a list of all the detection tiles (works because they all have the DetectionHandler script attached)
         DetectionHandler[] arrayOfDetectionHandlers = GameObject.FindObjectsOfType<DetectionHandler>();
         foreach (DetectionHandler dh in arrayOfDetectionHandlers)
         {
-            listOfTiles.Add(dh.gameObject);
+            allTiles.Add(dh.gameObject);
+        }
+    }
+
+    private void UnmarkTiles()
+    {
+        foreach (GameObject tile in allTiles)
+        {
+            tile.GetComponent<DetectionHandler>().AttackedByWhite = false;
+            tile.GetComponent<DetectionHandler>().AttackedByBlack = false;
         }
     }
 }

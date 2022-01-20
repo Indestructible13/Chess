@@ -48,7 +48,7 @@ public class MoveKing : MonoBehaviour
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             Vector3 rayPoint = ray.GetPoint(distance);
-            rayPoint.y = 2;
+            rayPoint.y = GameObject.Find("Board").transform.position.y + 2;
             transform.position = rayPoint;
         }
 
